@@ -23,6 +23,9 @@ const CameraController = ({ targetPosition, targetLookAt }) => {
 
 const Experience = () => {
   const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
+  const [showModal, setShowModal] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedMessage, setSelectedMessage] = useState('')
   
   const handleCameraMove = (dest) => {
     if (dest === "photos") {
@@ -41,13 +44,29 @@ const Experience = () => {
     }
   }
 
+  // モーダル表示関数
+  const handleImageClick = (image, message) => {
+    console.log('Experience.jsx - Modal開くよ:', image, message)
+    setSelectedImage(image)
+    setSelectedMessage(message)
+    setShowModal(true)
+  }
+
+  // モーダル閉じる関数
+  const closeModal = () => {
+    setShowModal(false)
+    setSelectedImage(null)
+    setSelectedMessage('')
+  }
+
   return (
-    <Canvas 
-        className='webgl'
-    >
+    <>
+      <Canvas 
+          className='webgl'
+      >
         <color args={ [0x74C2E8] }  attach="background" />
         <CameraController targetLookAt={cameraTarget} />
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         
         <Text
         position={[ 0, 3, 0 ]}
@@ -80,10 +99,18 @@ const Experience = () => {
             "/imgs/7/DSC_0775.JPG",
             "/imgs/7/DSC_0776.JPG"
           ]}
+          messages={[
+            "6月の素敵な思い出です！みんなで楽しい時間を過ごしました。",
+            "この日は本当に特別でした。たくさん笑って、たくさん話しました。", 
+            "美味しい食事と素晴らしい仲間たち。忘れられない一日になりました。",
+            "みんなの笑顔が輝いていた瞬間です。心から幸せを感じました。",
+            "この写真を見るたびに、その時の楽しさが蘇ってきます。"
+          ]}
           position={[10, 0, -15]}
           scale={[0.25, 0.25, 0.5]}
           stackOffset={0.3}
           rotationOffset={3}
+          onImageClick={handleImageClick}
         />
         
         <Text position={[0 ,0 ,-15]}>
@@ -102,7 +129,82 @@ const Experience = () => {
             <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} />
             <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} />
         </mesh>
-    </Canvas>
+      </Canvas>
+      
+      {/* モーダル - Canvas の外側に配置 */}
+      {showModal && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+            pointerEvents: 'auto'
+          }}
+          onClick={closeModal}
+        >
+          <div 
+            style={{
+              backgroundColor: 'white',
+              padding: '30px',
+              borderRadius: '15px',
+              maxWidth: '80vw',
+              maxHeight: '80vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img 
+              src={selectedImage} 
+              alt="Selected" 
+              style={{
+                maxWidth: '100%',
+                maxHeight: '60vh',
+                objectFit: 'contain',
+                marginBottom: '20px',
+                borderRadius: '8px'
+              }}
+            />
+            <p style={{
+              fontSize: '18px',
+              textAlign: 'center',
+              margin: '10px 0',
+              color: '#333',
+              fontFamily: 'Arial, sans-serif'
+            }}>
+              {selectedMessage}
+            </p>
+            <button 
+              onClick={closeModal}
+              style={{
+                padding: '12px 24px',
+                fontSize: '16px',
+                backgroundColor: '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                marginTop: '15px',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

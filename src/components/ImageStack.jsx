@@ -7,11 +7,28 @@ export default function ImageStack({
   images, 
   position = [0, 0, 0],
   scale = [1, 1, 1],
-  stackOffset = 0.2
+  stackOffset = 0.2,
+  messages = [], // 各画像に対応するメッセージ配列
+  onImageClick = () => {} // 親コンポーネントに画像クリックを通知
 }) {
   const [cardOrder, setCardOrder] = useState(images)
   const [isAnimating, setIsAnimating] = useState(false)
   const cardRefs = useRef({})
+
+  const showImageModal = () => {
+    console.log("View Image button clicked!") // デバッグ用
+    if (isAnimating) return
+    
+    const frontCard = cardOrder[0]
+    const imageIndex = images.indexOf(frontCard)
+    const message = messages[imageIndex] || 'No message available'
+    
+    console.log("Front card:", frontCard) // デバッグ用
+    console.log("Message:", message) // デバッグ用
+    
+    // 親コンポーネントにデータを渡す
+    onImageClick(frontCard, message)
+  }
 
   const nextCard = () => {
     if (isAnimating) return // アニメーション中は無効化
@@ -117,6 +134,16 @@ export default function ImageStack({
         )
       })}
       
+      {/* View Image ボタン */}
+      <Text
+        position={[0, -6, 0.1]}
+        fontSize={0.8}
+        color={isAnimating ? "gray" : "yellow"}
+        onClick={showImageModal}
+      >
+        View Image
+      </Text>
+
       {/* Next Cardボタン */}
       <Text
         position={[0, -8, 0.1]}
@@ -126,6 +153,8 @@ export default function ImageStack({
       >
         {isAnimating ? "Flipping..." : "Next Card"}
       </Text>
+
+
     </group>
   )
 }
