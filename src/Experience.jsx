@@ -10,6 +10,7 @@ import BackButton from './components/BackButton'
 import RainEffect from './components/RainEffect'
 import SummerParticles from './components/SummerParticles'
 import UltimateLensFlareEffect from './components/UltimateLensFlareEffect'
+import FallingLeavesEffect from './components/FallingLeavesEffect'
 import { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -386,6 +387,18 @@ const Experience = () => {
           onImageClick={handleImageClick}
           isActive={currentScreen === 'september'}
         />
+        
+        {/* 9月の落ち葉エフェクト */}
+        {currentScreen === 'september' && (
+          <FallingLeavesEffect 
+            count={120}
+            area={30}
+            fallSpeed={0.012}
+            swayAmount={1.0}
+            position={[-20, 10, -15]}
+          />
+        )}
+
         {/* フォルダページ */}
         <mesh position={[10, 0, 0]}>
             <Buttons text={'Jun.'} dest={'jun'} position={[0, 2.4, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'photos'} />
