@@ -71,17 +71,27 @@ const Buttons = ({ text, dest, position, onCameraMove, isActive = true }) => {
             onPointerOut={isActive ? () => {} : undefined}
         >
             <Text
-                fontWeight={600}
-                fontSize={0.8}
-                color={isActive ? "white" : "#888888"}
+                fontWeight={700}
+                fontSize={0.7}
+                color="#00ffff"
             >
                 {text}
             </Text>
             <mesh position={[0, 0, -0.2]} scale={[4, 1, 1]}>
                 <planeGeometry />
                 <meshBasicMaterial 
-                    color={isActive ? 'red' : '#666666'} 
-                    opacity={isActive ? 1 : 0.3}
+                    color='#1a1a3a' 
+                    opacity={0.8}
+                    transparent={true}
+                />
+            </mesh>
+            
+            {/* 宇宙風ボーダーエフェクト */}
+            <mesh position={[0, 0, -0.15]} scale={[4.1, 1.1, 1]}>
+                <planeGeometry />
+                <meshBasicMaterial 
+                    color='#00ffff' 
+                    opacity={0.6}
                     transparent={true}
                 />
             </mesh>

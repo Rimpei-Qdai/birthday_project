@@ -226,12 +226,12 @@ const Experience = () => {
           dpr={isMobile ? [1, 1.5] : [1, 2]}
           camera={{ position: [0, 0, 7], fov: isMobile ? 60 : 50 }}
       >
-        <color args={ [0x74C2E8] }  attach="background" />
+        <color args={ [0x0a0a1a] }  attach="background" />
         
-        {/* 霧エフェクト - 現在のエリアに応じて調整 */}
+        {/* 霧エフェクト - 宇宙風に調整 */}
         <fog 
           attach="fog" 
-          color="#74C2E8"
+          color="#0a0a1a"
           near={
             currentScreen === 'main' ? 15 :
             currentScreen === 'photos' ? 15 :
@@ -251,21 +251,23 @@ const Experience = () => {
         
         <Text
         position={[ 0, 3, 0 ]}
-        fontWeight={600}
-        fontSize={0.8}
+        fontWeight={700}
+        fontSize={0.9}
+        color="#00ffff"
         >
             Happy
         </Text>
         <Text
         position={[0, 1.9, 0]}
-        fontWeight={600}
-        fontSize={0.8}
+        fontWeight={700}
+        fontSize={0.9}
+        color="#00ffff"
         >
             Birthday!
         </Text>
 
-        {currentScreen === 'main' && <Buttons text={'PHOTOS'} dest={'photos'} position={[0, 0, 0]} onCameraMove={handleCameraMove} isActive={true} />}
-        {currentScreen === 'main' && <Buttons text={'MESSAGE'} dest={'messages'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} isActive={true} />}
+        <Buttons text={'PHOTOS'} dest={'photos'} position={[0, 0, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'main'} />
+        <Buttons text={'MESSAGE'} dest={'messages'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'main'} />
 
         <Text position={[-10 ,0 ,0]}>
             Test
@@ -363,73 +365,61 @@ const Experience = () => {
           isActive={currentScreen === 'september'}
         />
         {/* フォルダページ */}
-        {currentScreen === 'photos' && (
-          <mesh position={[10, 0, 0]}>
-              <Buttons text={'Jun.'} dest={'jun'} position={[0, 2.4, 0]} onCameraMove={handleCameraMove} isActive={true} />
-              <Buttons text={'Jul.'} dest={'july'} position={[0, 1.2, 0]} onCameraMove={handleCameraMove} isActive={true} />
-              <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} isActive={true} />
-              <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} isActive={true} />
-              
-              {/* フォルダページの戻るボタン */}
-              <BackButton 
-                position={[0, -3.5, 0]} 
-                onBack={handleBack} 
-                destinationType="main"
-                isActive={true}
-              />
-          </mesh>
-        )}
+        <mesh position={[10, 0, 0]}>
+            <Buttons text={'Jun.'} dest={'jun'} position={[0, 2.4, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'photos'} />
+            <Buttons text={'Jul.'} dest={'july'} position={[0, 1.2, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'photos'} />
+            <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'photos'} />
+            <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} isActive={currentScreen === 'photos'} />
+            
+            {/* フォルダページの戻るボタン */}
+            <BackButton 
+              position={[0, -3.5, 0]} 
+              onBack={handleBack} 
+              destinationType="main"
+              isActive={currentScreen === 'photos'}
+            />
+        </mesh>
 
         {/* 各月のページに戻るボタンを配置 */}
         {/* June エリアの戻るボタン */}
-        {currentScreen === 'jun' && (
-          <BackButton 
-            position={[10, -1, -20]} 
-            onBack={handleBack} 
-            destinationType="photos"
-            isActive={true}
-          />
-        )}
+        <BackButton 
+          position={[10, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+          isActive={currentScreen === 'jun'}
+        />
         
         {/* July エリアの戻るボタン */}
-        {currentScreen === 'july' && (
-          <BackButton 
-            position={[0, -1, -20]} 
-            onBack={handleBack} 
-            destinationType="photos"
-            isActive={true}
-          />
-        )}
+        <BackButton 
+          position={[0, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+          isActive={currentScreen === 'july'}
+        />
 
         {/* August エリアの戻るボタン */}
-        {currentScreen === 'august' && (
-          <BackButton 
-            position={[-10, -1, -20]} 
-            onBack={handleBack} 
-            destinationType="photos"
-            isActive={true}
-          />
-        )}
+        <BackButton 
+          position={[-10, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+          isActive={currentScreen === 'august'}
+        />
 
         {/* September エリアの戻るボタン */}
-        {currentScreen === 'september' && (
-          <BackButton 
-            position={[-20, -1, -20]} 
-            onBack={handleBack} 
-            destinationType="photos"
-            isActive={true}
-          />
-        )}
+        <BackButton 
+          position={[-20, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+          isActive={currentScreen === 'september'}
+        />
 
         {/* メッセージページの戻るボタン */}
-        {currentScreen === 'messages' && (
-          <BackButton 
-            position={[-10, -3, 0]} 
-            onBack={handleBack} 
-            destinationType="main"
-            isActive={true}
-          />
-        )}
+        <BackButton 
+          position={[-10, -3, 0]} 
+          onBack={handleBack} 
+          destinationType="main"
+          isActive={currentScreen === 'messages'}
+        />
       </Canvas>
       
       {/* ローディングオーバーレイ */}

@@ -20,22 +20,32 @@ const BackButton = ({ position = [0, 0, 0], onBack, destinationType = "main", is
       >
         <boxGeometry args={[1.5, 0.4, 0.1]} />
         <meshBasicMaterial 
-          color={isHovered && isActive ? "#ff6b6b" : "#ff8787"} 
+          color={isHovered ? "#ff4444" : "#3a1a1a"} 
           transparent 
-          opacity={isActive ? 0.8 : 0.3}
+          opacity={0.8}
+        />
+      </mesh>
+      
+      {/* 宇宙風ボーダーエフェクト */}
+      <mesh position={[0, 0, -0.02]}>
+        <boxGeometry args={[1.6, 0.5, 0.05]} />
+        <meshBasicMaterial 
+          color="#ff6666" 
+          transparent 
+          opacity={0.4}
         />
       </mesh>
       
       {/* 戻るボタンのテキスト */}
       <Text
         position={[0, 0, 0.06]}
-        fontSize={0.2}
-        color={isActive ? "white" : "#cccccc"}
+        fontSize={0.18}
+        color="#ff6666"
         anchorX="center"
         anchorY="middle"
-        fontWeight="bold"
+        fontWeight="700"
       >
-        ← 戻る
+        ← BACK
       </Text>
     </group>
   )

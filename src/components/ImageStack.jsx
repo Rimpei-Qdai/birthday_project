@@ -143,23 +143,25 @@ export default function ImageStack({
       {/* View Image ボタン */}
       <Text
         position={[0, -20, 0.1]}
-        fontSize={3}
-        color={!isActive ? "#333333" : isAnimating ? "gray" : "yellow"}
+        fontSize={2.5}
+        color={isAnimating ? "#666666" : "#00ffff"}
         onClick={isActive ? showImageModal : undefined}
         onPointerOver={isActive ? undefined : undefined}
+        fontWeight={700}
       >
-        View Image
+        VIEW IMAGE
       </Text>
 
       {/* Next Cardボタン */}
       <Text
         position={[0, -25, 0.1]}
-        fontSize={3}
-        color={!isActive ? "#333333" : isAnimating ? "gray" : "white"}
+        fontSize={2.5}
+        color={isAnimating ? "#666666" : "#ff6666"}
         onClick={isActive ? nextCard : undefined}
         onPointerOver={isActive ? undefined : undefined}
+        fontWeight={700}
       >
-        {!isActive ? "Disabled" : isAnimating ? "Flipping..." : "Next Card"}
+        {isAnimating ? "FLIPPING..." : "NEXT CARD"}
       </Text>
 
 
