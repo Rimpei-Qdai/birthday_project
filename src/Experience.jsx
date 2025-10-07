@@ -4,6 +4,7 @@ import '../public/styles/experience.css?1005'
 import Buttons from './components/Buttons'
 import ImagePlane from './components/ImagePlane'
 import ImageStack from './components/ImageStack'
+import BackButton from './components/BackButton'
 import { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -11,8 +12,15 @@ import * as THREE from 'three'
 const CameraController = ({ targetPosition, targetLookAt }) => {
   const { camera } = useThree()
   const currentLookAt = useRef(new THREE.Vector3(0, 0, 0))
+  const currentPosition = useRef(new THREE.Vector3(0, 0, 7))
 
   useFrame((state, delta) => {
+    // カメラの位置をスムーズに変更
+    if (targetPosition) {
+      currentPosition.current.lerp(targetPosition, 0.03)
+      camera.position.copy(currentPosition.current)
+    }
+    
     // カメラの目線をスムーズに変更
     currentLookAt.current.lerp(targetLookAt, 0.03)
     camera.lookAt(currentLookAt.current)
@@ -23,6 +31,8 @@ const CameraController = ({ targetPosition, targetLookAt }) => {
 
 const Experience = () => {
   const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
+  const [cameraPosition, setCameraPosition] = useState(new THREE.Vector3(0, 0, 7))
+  const [currentScreen, setCurrentScreen] = useState('main') // main, photos, messages, jun, july, august, september
   const [showModal, setShowModal] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -36,18 +46,48 @@ const Experience = () => {
   
   const handleCameraMove = (dest) => {
     if (dest === "photos") {
+      setCameraPosition(new THREE.Vector3(10, 0, 7))
       setCameraTarget(new THREE.Vector3(10, 0, 0))
+      setCurrentScreen('photos')
     } else if (dest === "messages") {
+      setCameraPosition(new THREE.Vector3(-10, 0, 7))
       setCameraTarget(new THREE.Vector3(-10, 0, 0))
+      setCurrentScreen('messages')
     }else if (dest === "jun") {
       console.log("jun!!")
+      setCameraPosition(new THREE.Vector3(10, 0, -8))
       setCameraTarget(new THREE.Vector3(10, 0, -15))
+      setCurrentScreen('jun')
     }else if (dest === "july") {
+      setCameraPosition(new THREE.Vector3(0, 0, -8))
       setCameraTarget(new THREE.Vector3(0 ,0 ,-15))
+      setCurrentScreen('july')
     }else if (dest === "august") {
+      setCameraPosition(new THREE.Vector3(-10, 0, -8))
       setCameraTarget(new THREE.Vector3(-10 ,0 ,-15))
+      setCurrentScreen('august')
     }else if (dest === "september") {
+      setCameraPosition(new THREE.Vector3(-20, 0, -8))
       setCameraTarget(new THREE.Vector3(-20 ,0 ,-15))
+      setCurrentScreen('september')
+    } else if (dest === "main") {
+      setCameraPosition(new THREE.Vector3(0, 0, 7))
+      setCameraTarget(new THREE.Vector3(0, 0, 0))
+      setCurrentScreen('main')
+    }
+  }
+
+  const handleBack = (destinationType) => {
+    if (destinationType === "photos") {
+      // 各月の写真束から月選択画面（photos）に戻る
+      setCameraPosition(new THREE.Vector3(10, 0, 7))
+      setCameraTarget(new THREE.Vector3(10, 0, 0))
+      setCurrentScreen('photos')
+    } else {
+      // その他の画面からメイン画面に戻る
+      setCameraPosition(new THREE.Vector3(0, 0, 7))
+      setCameraTarget(new THREE.Vector3(0, 0, 0))
+      setCurrentScreen('main')
     }
   }
 
@@ -187,7 +227,7 @@ const Experience = () => {
           camera={{ position: [0, 0, 7], fov: isMobile ? 60 : 50 }}
       >
         <color args={ [0x74C2E8] }  attach="background" />
-        <CameraController targetLookAt={cameraTarget} />
+        <CameraController targetPosition={cameraPosition} targetLookAt={cameraTarget} />
         {/* <OrbitControls /> */}
         
         <Text
@@ -305,7 +345,50 @@ const Experience = () => {
             <Buttons text={'Jul.'} dest={'july'} position={[0, 1.2, 0]} onCameraMove={handleCameraMove} />
             <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} />
             <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} />
+            
+            {/* フォルダページの戻るボタン */}
+            <BackButton 
+              position={[0, -3.5, 0]} 
+              onBack={handleBack} 
+              destinationType="main"
+            />
         </mesh>
+
+        {/* 各月のページに戻るボタンを配置 */}
+        {/* June エリアの戻るボタン */}
+        <BackButton 
+          position={[10, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+        />
+        
+        {/* July エリアの戻るボタン */}
+        <BackButton 
+          position={[0, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+        />
+
+        {/* August エリアの戻るボタン */}
+        <BackButton 
+          position={[-10, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+        />
+
+        {/* September エリアの戻るボタン */}
+        <BackButton 
+          position={[-20, -1, -20]} 
+          onBack={handleBack} 
+          destinationType="photos"
+        />
+
+        {/* メッセージページの戻るボタン */}
+        <BackButton 
+          position={[-10, -3, 0]} 
+          onBack={handleBack} 
+          destinationType="main"
+        />
       </Canvas>
       
       {/* ローディングオーバーレイ */}
