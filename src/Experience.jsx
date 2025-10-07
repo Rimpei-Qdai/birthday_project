@@ -27,6 +27,15 @@ const Experience = () => {
       setCameraTarget(new THREE.Vector3(10, 0, 0))
     } else if (dest === "messages") {
       setCameraTarget(new THREE.Vector3(-10, 0, 0))
+    }else if (dest === "jun") {
+      console.log("jun!!")
+      setCameraTarget(new THREE.Vector3(10, 0, -15))
+    }else if (dest === "july") {
+      setCameraTarget(new THREE.Vector3(0 ,0 ,-15))
+    }else if (dest === "august") {
+      setCameraTarget(new THREE.Vector3(-10 ,0 ,-15))
+    }else if (dest === "september") {
+      setCameraTarget(new THREE.Vector3(10 ,0 ,-25))
     }
   }
 
@@ -58,11 +67,25 @@ const Experience = () => {
         <Text position={[-10 ,0 ,0]}>
             Test
         </Text>
-
-        <Text position={[10 ,0 ,0]}>
-            Test
+        <Text position={[10 ,0 ,-15]}>
+            jun
         </Text>
-
+        <Text position={[0 ,0 ,-15]}>
+            july
+        </Text>
+        <Text position={[-10 ,0 ,-15]}>
+            august
+        </Text>
+        <Text position={[10 ,0 ,-25]}>
+            september
+        </Text>
+        {/* フォルダページ */}
+        <mesh position={[10, 0, 0]}>
+            <Buttons text={'Jun.'} dest={'jun'} position={[0, 2.4, 0]} onCameraMove={handleCameraMove} />
+            <Buttons text={'Jul.'} dest={'july'} position={[0, 1.2, 0]} onCameraMove={handleCameraMove} />
+            <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} />
+            <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} />
+        </mesh>
     </Canvas>
   )
 }

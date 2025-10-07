@@ -24,6 +24,42 @@ const Buttons = ({ text, dest, position, onCameraMove }) => {
                 ease: "power2.out"
             })
             onCameraMove(dest)
+        } else if (dest === "jun") {
+            console.log("Messages button clicked, moving camera to x:-10")
+            gsap.to(camera.position, {
+                x:10,
+                z:-10,
+                duration: 2,
+                ease: "power2.out"
+            })
+            onCameraMove(dest)
+        }else if (dest === "july") {
+            console.log("Messages button clicked, moving camera to x:-10")
+            gsap.to(camera.position, {
+                x:0,
+                z:-10,
+                duration: 2,
+                ease: "power2.out"
+            })
+            onCameraMove(dest)
+        }else if (dest === "august") {
+            console.log("Messages button clicked, moving camera to x:-10")
+            gsap.to(camera.position, {
+                x:-10,
+                z:-10,
+                duration: 2,
+                ease: "power2.out"
+            })
+            onCameraMove(dest)
+        }else if (dest === "september") {
+            console.log("Messages button clicked, moving camera to x:-10")
+            gsap.to(camera.position, {
+                x:10,
+                z:-20,
+                duration: 2,
+                ease: "power2.out"
+            })
+            onCameraMove(dest)
         }
     }
     return (
