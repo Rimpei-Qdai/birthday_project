@@ -6,6 +6,7 @@ import ImagePlane from './components/ImagePlane'
 import ImageStack from './components/ImageStack'
 import BackButton from './components/BackButton'
 import RainEffect from './components/RainEffect'
+import SummerParticles from './components/SummerParticles'
 import { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -328,6 +329,14 @@ const Experience = () => {
           onImageClick={handleImageClick}
           isActive={currentScreen === 'july'}
         />
+        
+        {/* 7月の夏パーティクルエフェクト */}
+        {currentScreen === 'july' && (
+          <SummerParticles 
+            count={12}
+            area={25}
+          />
+        )}
 
         {/* August エリア - カードスタック */}
         <ImageStack 
