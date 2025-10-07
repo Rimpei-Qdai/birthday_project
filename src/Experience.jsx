@@ -231,7 +231,7 @@ const Experience = () => {
         <color args={ [0x0a0a1a] }  attach="background" />
         
         {/* 霧エフェクト - 宇宙風に調整 */}
-        {/* <fog 
+        <fog 
           attach="fog" 
           color="#0a0a1a"
           near={
@@ -247,7 +247,7 @@ const Experience = () => {
             25  // 各月の写真エリア - より遠くまで霧を延長
           }
         />
-         */}
+        
         <CameraController targetPosition={cameraPosition} targetLookAt={cameraTarget} />
         {/* <OrbitControls makeDefault /> */}
         
