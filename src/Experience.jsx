@@ -1,8 +1,9 @@
-import { Text } from '@react-three/drei'
+import { OrbitControls, Text } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import '../public/styles/experience.css?1005'
 import Buttons from './components/Buttons'
 import ImagePlane from './components/ImagePlane'
+import ImageStack from './components/ImageStack'
 import { useRef, useState } from 'react'
 import * as THREE from 'three'
 
@@ -46,6 +47,7 @@ const Experience = () => {
     >
         <color args={ [0x74C2E8] }  attach="background" />
         <CameraController targetLookAt={cameraTarget} />
+        <OrbitControls />
         
         <Text
         position={[ 0, 3, 0 ]}
@@ -69,14 +71,19 @@ const Experience = () => {
             Test
         </Text>
         
-        {/* June エリア - 画像表示 */}
-        <ImagePlane 
-          src="/imgs/7/DSC_0772.JPG" 
+        {/* June エリア - カードスタック */}
+        <ImageStack 
+          images={[
+            "/imgs/7/DSC_0772.JPG",
+            "/imgs/7/DSC_0773.JPG", 
+            "/imgs/7/DSC_0774.JPG",
+            "/imgs/7/DSC_0775.JPG",
+            "/imgs/7/DSC_0776.JPG"
+          ]}
           position={[10, 0, -15]}
           scale={[0.25, 0.25, 0.5]}
-          border={true}
-          borderColor="white"
-          borderWidth={0.5}
+          stackOffset={0.3}
+          rotationOffset={3}
         />
         
         <Text position={[0 ,0 ,-15]}>
