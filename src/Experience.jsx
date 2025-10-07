@@ -264,8 +264,8 @@ const Experience = () => {
             Birthday!
         </Text>
 
-        <Buttons text={'PHOTOS'} dest={'photos'} position={[0, 0, 0]} onCameraMove={handleCameraMove} />
-        <Buttons text={'MESSAGE'} dest={'messages'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} />
+        {currentScreen === 'main' && <Buttons text={'PHOTOS'} dest={'photos'} position={[0, 0, 0]} onCameraMove={handleCameraMove} isActive={true} />}
+        {currentScreen === 'main' && <Buttons text={'MESSAGE'} dest={'messages'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} isActive={true} />}
 
         <Text position={[-10 ,0 ,0]}>
             Test
@@ -291,6 +291,7 @@ const Experience = () => {
           scale={mobileSettings.scale}
           stackOffset={mobileSettings.stackOffset}
           onImageClick={handleImageClick}
+          isActive={currentScreen === 'jun'}
         />
         
         {/* July エリア - カードスタック */}
@@ -313,6 +314,7 @@ const Experience = () => {
           scale={mobileSettings.scale}
           stackOffset={mobileSettings.stackOffset}
           onImageClick={handleImageClick}
+          isActive={currentScreen === 'july'}
         />
 
         {/* August エリア - カードスタック */}
@@ -335,6 +337,7 @@ const Experience = () => {
           scale={mobileSettings.scale}
           stackOffset={mobileSettings.stackOffset}
           onImageClick={handleImageClick}
+          isActive={currentScreen === 'august'}
         />
 
         {/* September エリア - カードスタック */}
@@ -357,57 +360,76 @@ const Experience = () => {
           scale={mobileSettings.scale}
           stackOffset={mobileSettings.stackOffset}
           onImageClick={handleImageClick}
+          isActive={currentScreen === 'september'}
         />
         {/* フォルダページ */}
-        <mesh position={[10, 0, 0]}>
-            <Buttons text={'Jun.'} dest={'jun'} position={[0, 2.4, 0]} onCameraMove={handleCameraMove} />
-            <Buttons text={'Jul.'} dest={'july'} position={[0, 1.2, 0]} onCameraMove={handleCameraMove} />
-            <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} />
-            <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} />
-            
-            {/* フォルダページの戻るボタン */}
-            <BackButton 
-              position={[0, -3.5, 0]} 
-              onBack={handleBack} 
-              destinationType="main"
-            />
-        </mesh>
+        {currentScreen === 'photos' && (
+          <mesh position={[10, 0, 0]}>
+              <Buttons text={'Jun.'} dest={'jun'} position={[0, 2.4, 0]} onCameraMove={handleCameraMove} isActive={true} />
+              <Buttons text={'Jul.'} dest={'july'} position={[0, 1.2, 0]} onCameraMove={handleCameraMove} isActive={true} />
+              <Buttons text={'Aug.'} dest={'august'} position={[0, 0, 0]} onCameraMove={handleCameraMove} isActive={true} />
+              <Buttons text={'Sep.'} dest={'september'} position={[0, -1.2, 0]} onCameraMove={handleCameraMove} isActive={true} />
+              
+              {/* フォルダページの戻るボタン */}
+              <BackButton 
+                position={[0, -3.5, 0]} 
+                onBack={handleBack} 
+                destinationType="main"
+                isActive={true}
+              />
+          </mesh>
+        )}
 
         {/* 各月のページに戻るボタンを配置 */}
         {/* June エリアの戻るボタン */}
-        <BackButton 
-          position={[10, -1, -20]} 
-          onBack={handleBack} 
-          destinationType="photos"
-        />
+        {currentScreen === 'jun' && (
+          <BackButton 
+            position={[10, -1, -20]} 
+            onBack={handleBack} 
+            destinationType="photos"
+            isActive={true}
+          />
+        )}
         
         {/* July エリアの戻るボタン */}
-        <BackButton 
-          position={[0, -1, -20]} 
-          onBack={handleBack} 
-          destinationType="photos"
-        />
+        {currentScreen === 'july' && (
+          <BackButton 
+            position={[0, -1, -20]} 
+            onBack={handleBack} 
+            destinationType="photos"
+            isActive={true}
+          />
+        )}
 
         {/* August エリアの戻るボタン */}
-        <BackButton 
-          position={[-10, -1, -20]} 
-          onBack={handleBack} 
-          destinationType="photos"
-        />
+        {currentScreen === 'august' && (
+          <BackButton 
+            position={[-10, -1, -20]} 
+            onBack={handleBack} 
+            destinationType="photos"
+            isActive={true}
+          />
+        )}
 
         {/* September エリアの戻るボタン */}
-        <BackButton 
-          position={[-20, -1, -20]} 
-          onBack={handleBack} 
-          destinationType="photos"
-        />
+        {currentScreen === 'september' && (
+          <BackButton 
+            position={[-20, -1, -20]} 
+            onBack={handleBack} 
+            destinationType="photos"
+            isActive={true}
+          />
+        )}
 
         {/* メッセージページの戻るボタン */}
-        <BackButton 
-          position={[-10, -3, 0]} 
-          onBack={handleBack} 
-          destinationType="main"
-        />
+        {currentScreen === 'messages' && (
+          <BackButton 
+            position={[-10, -3, 0]} 
+            onBack={handleBack} 
+            destinationType="main"
+            isActive={true}
+          />
+        )}
       </Canvas>
       
       {/* ローディングオーバーレイ */}

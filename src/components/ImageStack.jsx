@@ -9,7 +9,8 @@ export default function ImageStack({
   scale = [1, 1, 1],
   stackOffset = 0.5,
   messages = [], // 各画像に対応するメッセージ配列
-  onImageClick = () => {} // 親コンポーネントに画像クリックを通知
+  onImageClick = () => {}, // 親コンポーネントに画像クリックを通知
+  isActive = true // ボタンの有効/無効状態
 }) {
   const [cardOrder, setCardOrder] = useState(images)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -17,7 +18,7 @@ export default function ImageStack({
 
   const showImageModal = () => {
     console.log("View Image button clicked!") // デバッグ用
-    if (isAnimating) return
+    if (!isActive || isAnimating) return // 非アクティブ時は無効
     
     const frontCard = cardOrder[0]
     const imageIndex = images.indexOf(frontCard)
@@ -31,7 +32,7 @@ export default function ImageStack({
   }
 
   const nextCard = () => {
-    if (isAnimating) return // アニメーション中は無効化
+    if (!isActive || isAnimating) return // 非アクティブ時またはアニメーション中は無効化
 
     const frontCard = cardOrder[0]
     const frontCardRef = cardRefs.current[frontCard]
@@ -143,8 +144,9 @@ export default function ImageStack({
       <Text
         position={[0, -20, 0.1]}
         fontSize={3}
-        color={isAnimating ? "gray" : "yellow"}
-        onClick={showImageModal}
+        color={!isActive ? "#333333" : isAnimating ? "gray" : "yellow"}
+        onClick={isActive ? showImageModal : undefined}
+        onPointerOver={isActive ? undefined : undefined}
       >
         View Image
       </Text>
@@ -153,10 +155,11 @@ export default function ImageStack({
       <Text
         position={[0, -25, 0.1]}
         fontSize={3}
-        color={isAnimating ? "gray" : "white"}
-        onClick={nextCard}
+        color={!isActive ? "#333333" : isAnimating ? "gray" : "white"}
+        onClick={isActive ? nextCard : undefined}
+        onPointerOver={isActive ? undefined : undefined}
       >
-        {isAnimating ? "Flipping..." : "Next Card"}
+        {!isActive ? "Disabled" : isAnimating ? "Flipping..." : "Next Card"}
       </Text>
 
 
