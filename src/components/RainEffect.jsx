@@ -2,7 +2,7 @@ import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-export default function RainEffect({ count = 1000, area = 50, speed = 0.1 }) {
+export default function RainEffect({ count = 1000, area = 1, speed = 0.1 }) {
   const meshRef = useRef()
   const dummy = useMemo(() => new THREE.Object3D(), [])
 
@@ -11,9 +11,9 @@ export default function RainEffect({ count = 1000, area = 50, speed = 0.1 }) {
     const temp = []
     for (let i = 0; i < count; i++) {
       temp.push({
-        x: (Math.random() - 0.5) * area,
-        y: Math.random() * area + 10,
-        z: (Math.random() - 0.5) * area,
+        x: (Math.random() - 0.5) * area -10,
+        y: Math.random() * 10,
+        z: (Math.random() - 0.5) * area - 10,
         speed: Math.random() * speed + speed * 0.5
       })
     }
@@ -29,7 +29,7 @@ export default function RainEffect({ count = 1000, area = 50, speed = 0.1 }) {
       
       // 地面に到達したら上に戻す
       if (particle.y < -10) {
-        particle.y = area + 10
+        particle.y =  10
         particle.x = (Math.random() - 0.5) * area
         particle.z = (Math.random() - 0.5) * area
       }

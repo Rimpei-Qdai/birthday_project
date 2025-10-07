@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const FallingLeavesEffect = ({ 
-  count = 50,
+  count = 100,
   area = 1,
   fallSpeed = 0.1,
   swayAmount = 0.5,
@@ -34,9 +34,9 @@ const FallingLeavesEffect = ({
     const data = [];
     
     for (let i = 0; i < count; i++) {
-      const startX = (Math.random() - 0.5) * area;
+      const startX = (Math.random() - 0.5) * area + 10;
       const startY =  Math.random() * 10; // 上空からスタート
-      const startZ = (Math.random() - 0.5) * area;
+      const startZ = (Math.random() - 0.5) * area - 10;
       
       data.push({
         // 初期位置
@@ -111,7 +111,7 @@ const FallingLeavesEffect = ({
       
       // 葉っぱが地面に落ちたらリセット
       if (leaf.y < -20) {
-        leaf.y = 5 + Math.random() * 10; // 上空に戻す
+        leaf.y = 10; // 上空に戻す
         leaf.startX = (Math.random() - 0.5) * area;
         leaf.startZ = (Math.random() - 0.5) * area;
         leaf.x = leaf.startX; // 現在位置もリセット
