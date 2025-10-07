@@ -227,6 +227,25 @@ const Experience = () => {
           camera={{ position: [0, 0, 7], fov: isMobile ? 60 : 50 }}
       >
         <color args={ [0x74C2E8] }  attach="background" />
+        
+        {/* 霧エフェクト - 現在のエリアに応じて調整 */}
+        <fog 
+          attach="fog" 
+          color="#74C2E8"
+          near={
+            currentScreen === 'main' ? 15 :
+            currentScreen === 'photos' ? 15 :
+            currentScreen === 'messages' ? 15 :
+            15  // 各月の写真エリア - より遠くから霧を開始
+          }
+          far={
+            currentScreen === 'main' ? 25 :
+            currentScreen === 'photos' ? 25 :
+            currentScreen === 'messages' ? 25 :
+            25  // 各月の写真エリア - より遠くまで霧を延長
+          }
+        />
+        
         <CameraController targetPosition={cameraPosition} targetLookAt={cameraTarget} />
         {/* <OrbitControls /> */}
         
