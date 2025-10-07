@@ -2,6 +2,7 @@ import { Text } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import '../public/styles/experience.css?1005'
 import Buttons from './components/Buttons'
+import ImagePlane from './components/ImagePlane'
 import { useRef, useState } from 'react'
 import * as THREE from 'three'
 
@@ -67,9 +68,17 @@ const Experience = () => {
         <Text position={[-10 ,0 ,0]}>
             Test
         </Text>
-        <Text position={[10 ,0 ,-15]}>
-            jun
-        </Text>
+        
+        {/* June エリア - 画像表示 */}
+        <ImagePlane 
+          src="/imgs/7/DSC_0772.JPG" 
+          position={[10, 0, -15]}
+          scale={[0.25, 0.25, 0.5]}
+          border={true}
+          borderColor="white"
+          borderWidth={0.5}
+        />
+        
         <Text position={[0 ,0 ,-15]}>
             july
         </Text>
