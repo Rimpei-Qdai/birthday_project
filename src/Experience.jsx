@@ -5,6 +5,7 @@ import Buttons from './components/Buttons'
 import ImagePlane from './components/ImagePlane'
 import ImageStack from './components/ImageStack'
 import BackButton from './components/BackButton'
+import RainEffect from './components/RainEffect'
 import { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -295,6 +296,15 @@ const Experience = () => {
           onImageClick={handleImageClick}
           isActive={currentScreen === 'jun'}
         />
+        
+        {/* 6月の雨エフェクト */}
+        {currentScreen === 'jun' && (
+          <RainEffect 
+            count={800}
+            area={40}
+            speed={0.2}
+          />
+        )}
         
         {/* July エリア - カードスタック */}
         <ImageStack 
