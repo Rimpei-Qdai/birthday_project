@@ -1,5 +1,7 @@
 import { OrbitControls, Text } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { EffectComposer, Bloom, BrightnessContrast, Vignette } from '@react-three/postprocessing'
+import { BlendFunction } from 'postprocessing'
 import '../public/styles/experience.css?1005'
 import Buttons from './components/Buttons'
 import ImagePlane from './components/ImagePlane'
@@ -7,6 +9,7 @@ import ImageStack from './components/ImageStack'
 import BackButton from './components/BackButton'
 import RainEffect from './components/RainEffect'
 import SummerParticles from './components/SummerParticles'
+import UltimateLensFlareEffect from './components/UltimateLensFlareEffect'
 import { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -439,6 +442,32 @@ const Experience = () => {
           destinationType="main"
           isActive={currentScreen === 'messages'}
         />
+
+        {/* ポストプロセシング エフェクト */}
+        <EffectComposer multisampling={0}>
+          {/* 8月の高品質レンズフレアエフェクト */}
+          {currentScreen === 'august' && (
+            <UltimateLensFlareEffect 
+              position={{ x: -18, y: 15, z: -35 }}
+              blendFunction={BlendFunction.NORMAL}
+              glareSize={0.05}
+              starPoints={8}
+              flareSize={0.004}
+              flareSpeed={0.2}
+              flareShape={0.1}
+              animated={true}
+              anamorphic={false}
+              colorGain={new THREE.Color(250, 200, 150)}
+              haloScale={0.6}
+              secondaryGhosts={true}
+              aditionalStreaks={true}
+              ghostScale={0.3}
+              starBurst={true}
+              enabled={true}
+              opacity={0.3}
+            />
+          )}
+        </EffectComposer>
       </Canvas>
       
       {/* ローディングオーバーレイ */}
