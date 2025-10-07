@@ -136,8 +136,8 @@ export default function ImageStack({
       
       {/* View Image ボタン */}
       <Text
-        position={[0, -6, 0.1]}
-        fontSize={0.8}
+        position={[0, -20, 0.1]}
+        fontSize={3}
         color={isAnimating ? "gray" : "yellow"}
         onClick={showImageModal}
       >
@@ -146,8 +146,8 @@ export default function ImageStack({
 
       {/* Next Cardボタン */}
       <Text
-        position={[0, -8, 0.1]}
-        fontSize={1}
+        position={[0, -25, 0.1]}
+        fontSize={3}
         color={isAnimating ? "gray" : "white"}
         onClick={nextCard}
       >

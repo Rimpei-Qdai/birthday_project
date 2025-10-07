@@ -4,7 +4,7 @@ import '../public/styles/experience.css?1005'
 import Buttons from './components/Buttons'
 import ImagePlane from './components/ImagePlane'
 import ImageStack from './components/ImageStack'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
 // カメラコントローラーコンポーネント
@@ -24,6 +24,7 @@ const CameraController = ({ targetPosition, targetLookAt }) => {
 const Experience = () => {
   const [cameraTarget, setCameraTarget] = useState(new THREE.Vector3(0, 0, 0))
   const [showModal, setShowModal] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedMessage, setSelectedMessage] = useState('')
   
@@ -50,14 +51,40 @@ const Experience = () => {
     setSelectedImage(image)
     setSelectedMessage(message)
     setShowModal(true)
+    // 少し遅延してフェードイン開始
+    setTimeout(() => setIsModalVisible(true), 10)
   }
 
   // モーダル閉じる関数
   const closeModal = () => {
-    setShowModal(false)
-    setSelectedImage(null)
-    setSelectedMessage('')
+    setIsModalVisible(false)
+    // フェードアウト完了後にモーダルを非表示
+    setTimeout(() => {
+      setShowModal(false)
+      setSelectedImage(null)
+      setSelectedMessage('')
+    }, 300) // transition duration と合わせる
   }
+
+  // Escape キーでモーダルを閉じる
+  useEffect(() => {
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape' && showModal) {
+        closeModal()
+      }
+    }
+
+    if (showModal) {
+      document.addEventListener('keydown', handleEscapeKey)
+      // ボディのスクロールを無効化
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey)
+      document.body.style.overflow = 'unset'
+    }
+  }, [showModal])
 
   return (
     <>
@@ -106,7 +133,7 @@ const Experience = () => {
             "みんなの笑顔が輝いていた瞬間です。心から幸せを感じました。",
             "この写真を見るたびに、その時の楽しさが蘇ってきます。"
           ]}
-          position={[10, 0, -15]}
+          position={[10, 2, -20]}
           scale={[0.25, 0.25, 0.5]}
           stackOffset={0.3}
           rotationOffset={3}
@@ -140,12 +167,13 @@ const Experience = () => {
             left: 0,
             width: '100vw',
             height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backgroundColor: `rgba(0, 0, 0, ${isModalVisible ? 0.8 : 0})`,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             zIndex: 1000,
-            pointerEvents: 'auto'
+            pointerEvents: 'auto',
+            transition: 'background-color 0.3s ease-in-out'
           }}
           onClick={closeModal}
         >
@@ -159,7 +187,10 @@ const Experience = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+              boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+              opacity: isModalVisible ? 1 : 0,
+              transform: `scale(${isModalVisible ? 1 : 0.8}) translateY(${isModalVisible ? 0 : '20px'})`,
+              transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out'
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -171,7 +202,10 @@ const Experience = () => {
                 maxHeight: '60vh',
                 objectFit: 'contain',
                 marginBottom: '20px',
-                borderRadius: '8px'
+                borderRadius: '8px',
+                opacity: isModalVisible ? 1 : 0,
+                transform: `translateY(${isModalVisible ? 0 : '10px'})`,
+                transition: 'opacity 0.4s ease-in-out 0.1s, transform 0.4s ease-in-out 0.1s'
               }}
             />
             <p style={{
@@ -179,7 +213,10 @@ const Experience = () => {
               textAlign: 'center',
               margin: '10px 0',
               color: '#333',
-              fontFamily: 'Arial, sans-serif'
+              fontFamily: 'Arial, sans-serif',
+              opacity: isModalVisible ? 1 : 0,
+              transform: `translateY(${isModalVisible ? 0 : '10px'})`,
+              transition: 'opacity 0.4s ease-in-out 0.2s, transform 0.4s ease-in-out 0.2s'
             }}>
               {selectedMessage}
             </p>
@@ -194,7 +231,9 @@ const Experience = () => {
                 borderRadius: '8px',
                 cursor: 'pointer',
                 marginTop: '15px',
-                transition: 'background-color 0.3s'
+                opacity: isModalVisible ? 1 : 0,
+                transform: `translateY(${isModalVisible ? 0 : '10px'})`,
+                transition: 'background-color 0.3s, opacity 0.4s ease-in-out 0.3s, transform 0.4s ease-in-out 0.3s'
               }}
               onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
               onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
