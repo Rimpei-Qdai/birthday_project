@@ -54,8 +54,8 @@ const Buttons = ({ text, dest, position, onCameraMove }) => {
         }else if (dest === "september") {
             console.log("Messages button clicked, moving camera to x:-10")
             gsap.to(camera.position, {
-                x:10,
-                z:-20,
+                x:-20,
+                z:-10,
                 duration: 2,
                 ease: "power2.out"
             })
