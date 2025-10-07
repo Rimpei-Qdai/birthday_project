@@ -33,16 +33,16 @@ export default function ImageStack({
     
     // ステップ1: まず上に浮上（束から離れる）
     timeline.to(frontCardRef.position, {
-      y: frontCardRef.position.y + 6, // 高く浮上
-      duration: 0.3,
+      y: frontCardRef.position.y + 25, 
+      x: frontCardRef.position.x + 25, // 横に移動
+      duration: 0.4,
       ease: "power2.out"
     })
 
     // ステップ2: 浮上しながら横に移動
     .to(frontCardRef.position, {
-      x: frontCardRef.position.x + 12, // 横に移動
-      y: frontCardRef.position.y + 8, // さらに高く
-      duration: 0.4,
+      z: finalZ - 3,
+      duration: 0.2,
       ease: "power2.out"
     })
 
@@ -51,7 +51,7 @@ export default function ImageStack({
       x: finalX,
       y: finalY,
       z: finalZ,
-      duration: 0.6,
+      duration: 0.3,
       ease: "power2.inOut"
     })
 
