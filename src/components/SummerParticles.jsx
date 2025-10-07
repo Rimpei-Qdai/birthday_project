@@ -2,7 +2,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-export default function SummerParticles({ count = 15, area = 30 }) {
+export default function SummerParticles({ count = 20, area = 35 }) {
   const groupRef = useRef()
   const [svgTextures, setSvgTextures] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
@@ -175,25 +175,32 @@ export default function SummerParticles({ count = 15, area = 30 }) {
   const particles = useMemo(() => {
     const temp = []
     for (let i = 0; i < count; i++) {
-      // 7月ページの中心位置 [0, 2, -20] 周辺に配置
+      // 7月ページの写真位置 [0, 0, -15] を中心に配置
       const centerX = 0
-      const centerY = 2
-      const centerZ = -20
+      const centerY = 0
+      const centerZ = -15
       
       temp.push({
-        x: centerX + (Math.random() - 0.5) * 25, // ±12.5の範囲
-        y: centerY + (Math.random() - 0.5) * 20, // ±10の範囲
-        z: centerZ + (Math.random() - 0.5) * 15, // ±7.5の範囲
-        rotationSpeed: Math.random() * 0.03 + 0.01,
-        floatSpeed: Math.random() * 0.008 + 0.003,
-        scale: Math.random() * 0.6 + 0.4,
+        x: centerX + (Math.random() - 0.5) * 5, // ±10の範囲
+        y: centerY + (Math.random() - 0.5) * 10, // ±7.5の範囲
+        z: centerZ + (Math.random() - 0.5) * 8,  // ±4の範囲（写真の近く）
+        rotationSpeed: Math.random() * 0.02 + 0.005,
+        floatSpeed: Math.random() * 0.6 + 0.4,
+        scale: Math.random() * 0.6,
         svgIndex: Math.floor(Math.random() * svgPaths.length),
-        color: new THREE.Color().setHSL(
-          Math.random() * 0.4 + 0.1, // 黄色〜緑系
-          0.9, // 高彩度
-          0.8  // 明るめ
-        ),
-        phase: Math.random() * Math.PI * 2
+        color: (() => {
+          const svgIndex = Math.floor(Math.random() * svgPaths.length)
+          const colors = [
+            new THREE.Color('#87CEEB'), // かき氷 - スカイブルー
+            new THREE.Color('#FF6B6B'), // カットスイカ - 赤
+            new THREE.Color('#4ECDC4'), // スイカ - ターコイズ
+            new THREE.Color('#FFD93D'), // 太陽 - 黄色
+            new THREE.Color('#FF8C42')  // 熱帯魚 - オレンジ
+          ]
+          return colors[svgIndex]
+        })(),
+        phase: Math.random() * Math.PI * 2,
+        orbitalPhase: Math.random() * Math.PI * 2
       })
     }
     return temp
@@ -209,16 +216,25 @@ export default function SummerParticles({ count = 15, area = 30 }) {
     groupRef.current.children.forEach((child, i) => {
       if (particles[i]) {
         const particle = particles[i]
+        const time = state.clock.elapsedTime
         
-        // 浮遊アニメーション
-        child.position.y = particle.y + Math.sin(state.clock.elapsedTime * particle.floatSpeed + particle.phase) * 2
+        // 7月写真の位置 [0, 0, -15] を中心とした円形軌道
+        const centerX = 5, centerY = 0, centerZ = 5
+        const radius = 6 + Math.sin(time * 0.5 + particle.phase) * 2 // 半径が変化する楕円
+        const angle = time * 0.3 + particle.orbitalPhase + i * 0.5
         
-        // 回転アニメーション
+        // 円形軌道での移動
+        child.position.x = centerX + Math.cos(angle) * radius
+        child.position.z = centerZ + Math.sin(angle) * radius * 0.7 // Z軸では少し潰した楕円
+        
+        // Y軸は穏やかな浮遊動作
+        child.position.y = centerY + particle.y * 0.3 + Math.sin(time * particle.floatSpeed + particle.phase) * 1.5
+        
+        // パーティクル自体の回転
         child.rotation.z += particle.rotationSpeed
         
-        // スケールの変化（輝き効果）
-        const glowScale = 1 + Math.sin(state.clock.elapsedTime * 4 + i) * 0.15
-        child.scale.setScalar(particle.scale * glowScale)
+        // 固定サイズ
+        child.scale.setScalar(particle.scale)
       }
     })
   })
@@ -232,7 +248,7 @@ export default function SummerParticles({ count = 15, area = 30 }) {
   console.log('Rendering SummerParticles with', svgTextures.length, 'textures and', particles.length, 'particles')
 
   return (
-    <group ref={groupRef}>
+    <group position={[0, 0, -15]} ref={groupRef}>
       {particles.map((particle, i) => (
         <mesh
           key={i}
