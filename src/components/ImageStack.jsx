@@ -7,7 +7,7 @@ export default function ImageStack({
   images, 
   position = [0, 0, 0],
   scale = [1, 1, 1],
-  stackOffset = 0.2,
+  stackOffset = 0.5,
   messages = [], // 各画像に対応するメッセージ配列
   onImageClick = () => {} // 親コンポーネントに画像クリックを通知
 }) {
@@ -41,8 +41,8 @@ export default function ImageStack({
     setIsAnimating(true)
 
     // 最終的な後ろの位置を計算
-    const finalX = (cardOrder.length - 1) * stackOffset * 0.8
-    const finalY = -(cardOrder.length - 1) * stackOffset * 0.5
+    const finalX = (cardOrder.length - 1) * stackOffset * 3
+    const finalY = (cardOrder.length - 1) * stackOffset * 2
     const finalZ = -(cardOrder.length - 1) * stackOffset * 3
 
     // 一番前のカードをアニメーションさせる
@@ -79,8 +79,8 @@ export default function ImageStack({
       remainingCards.forEach((imageSrc, index) => {
         const cardRef = cardRefs.current[imageSrc]
         if (cardRef) {
-          const newX = index * stackOffset * 0.8
-          const newY = -index * stackOffset * 0.5
+          const newX = index * stackOffset * 3
+          const newY = index * stackOffset * 2
           const newZ = -index * stackOffset * 3
           
           gsap.to(cardRef.position, {
@@ -112,9 +112,14 @@ export default function ImageStack({
     <group position={position} scale={scale}>
       {cardOrder.map((imageSrc, index) => {
         // インデックスに基づいて位置を計算（0が一番前、1が次...）
-        const zOffset = -index * stackOffset * 3 // Z軸オフセットを大きく
-        const xOffset = index * stackOffset * 0.8 // X軸オフセットも少し大きく
-        const yOffset = -index * stackOffset * 0.5 // Y軸オフセットも少し大きく
+        const zOffset = -index * stackOffset * 3 // Z軸の奥行き
+        const xOffset = index * stackOffset * 3 // 右方向にずらす（大幅増加）
+        const yOffset = index * stackOffset * 2 // 上方向にずらす（大幅増加）
+        
+        // デバッグ用：最初の数枚のオフセット値を表示
+        if (index < 3) {
+          console.log(`Card ${index}: x=${xOffset}, y=${yOffset}, z=${zOffset}, stackOffset=${stackOffset}`)
+        }
 
         return (
           <group
